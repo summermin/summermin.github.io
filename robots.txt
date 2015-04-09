@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://summermin.github.io/sitemap.xml 

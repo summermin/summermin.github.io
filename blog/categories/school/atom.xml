@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: School | Forward Slash.]]></title>
+  <link href="http://summermin.github.io/blog/categories/school/atom.xml" rel="self"/>
+  <link href="http://summermin.github.io/"/>
+  <updated>2015-04-09T14:29:56-04:00</updated>
+  <id>http://summermin.github.io/</id>
+  <author>
+    <name><![CDATA[Summer Min]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[My First Post on Octopress]]></title>
+    <link href="http://summermin.github.io/blog/2015/04/09/my-first-post-on-octopress/"/>
+    <updated>2015-04-09T14:29:06-04:00</updated>
+    <id>http://summermin.github.io/blog/2015/04/09/my-first-post-on-octopress</id>
+    <content type="html"><![CDATA[<p>&ldquo;Hello, World&rdquo;</p>
+]]></content>
+  </entry>
+  
+</feed>
