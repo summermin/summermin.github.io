@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Flatiron | Forward Slash.]]></title>
+  <title><![CDATA[Category: flatiron | Forward Slash.]]></title>
   <link href="http://summermin.github.io/blog/categories/flatiron/atom.xml" rel="self"/>
   <link href="http://summermin.github.io/"/>
-  <updated>2015-04-09T14:29:56-04:00</updated>
+  <updated>2015-04-09T14:32:45-04:00</updated>
   <id>http://summermin.github.io/</id>
   <author>
     <name><![CDATA[Summer Min]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[My First Post on Octopress]]></title>
+    <title type="html"><![CDATA[My First Post On Octopress]]></title>
     <link href="http://summermin.github.io/blog/2015/04/09/my-first-post-on-octopress/"/>
     <updated>2015-04-09T14:29:06-04:00</updated>
     <id>http://summermin.github.io/blog/2015/04/09/my-first-post-on-octopress</id>
