@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby, | Forward Slash.]]></title>
   <link href="http://summermin.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://summermin.github.io/"/>
-  <updated>2015-04-09T23:31:08-04:00</updated>
+  <updated>2015-04-09T23:45:51-04:00</updated>
   <id>http://summermin.github.io/</id>
   <author>
     <name><![CDATA[Summer Min]]></name>
@@ -51,7 +51,7 @@ NoMethodError: undefined method `length' for 1234:Fixnum
 =&gt; "4321" 
 </code></pre>
 
-<p>When you try to run reverse on a number, ruby doesn&rsquo;t know what you&rsquo;re talking about. If you really wanted to get 4321, you could turn that number into a string by adding quotes around it. So quick recap: classes determine what methods you can use. Strings have their own set of methods, numbers have their own set, arrays have their own set, etc etc. Alright, take a deep breath, you with me? Just one more thing and we&rsquo;re done.</p>
+<p>When you try to run reverse on a number, ruby doesn&rsquo;t know what you&rsquo;re talking about. If you really wanted to get 4321, you could turn that number into a string by adding quotes around it, then the reverse method would work. So quick recap: classes are essentially the framework behind which objects are built, and as such, they determine what methods you can use on an object. Strings have their own set of methods, numbers have their own set, arrays have their own set, etc etc. Alright, take a deep breath, you with me? Just one more thing and we&rsquo;re done.</p>
 
 <p>You can make your own class and define the methods which the class can use. With these custom classes, you can do some pretty powerful stuff, what kind of stuff? We&rsquo;ll leave that for another post. Here, I&rsquo;ll provide a very simple example. Let&rsquo;s make a cat class.</p>
 
