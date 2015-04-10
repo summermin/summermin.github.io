@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby, | Forward Slash.]]></title>
   <link href="http://summermin.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://summermin.github.io/"/>
-  <updated>2015-04-09T21:18:17-04:00</updated>
+  <updated>2015-04-09T21:31:02-04:00</updated>
   <id>http://summermin.github.io/</id>
   <author>
     <name><![CDATA[Summer Min]]></name>
@@ -20,7 +20,7 @@
     <id>http://summermin.github.io/blog/2015/04/09/class-schmass</id>
     <content type="html"><![CDATA[<p>Nine days into my programming education, I am realizing 1. I know jack shit and 2. I am certainly not as clever as I thought. So an approporiate first post would be on a topic which has been challenging me lately: Ruby classes. Let&rsquo;s dive right in shall we?</p>
 
-<p>When you strip Ruby down to its bare bones, I find that it consists simply of two things: objects and methods. Everything in ruby is an object (the number 1, the word &ldquo;hello&rdquo;) and methods are what you can do to those objects.</p>
+<p>When you strip Ruby down to its bare bones, I find that it consists simply of two things: objects and methods. Almost everything in ruby is an object (the number 1, the word &ldquo;hello&rdquo;) and methods are what you can do to those objects.</p>
 
 <p>For example, you can tell ruby to reverse your name (your name being the object and reverse being the method). It would look something like this:</p>
 
@@ -28,7 +28,7 @@
 =&gt; "remmuS" 
 </code></pre>
 
-<p>See? my name in reverse! Cool, huh? But you&rsquo;re asking, &ldquo;Summer, I thought we were going to talk about classes? GIVE ME CLASSES.&rdquo;</p>
+<p>See? my name in reverse! Cool, huh? But you&rsquo;re thinking, &ldquo;Summer, I thought we were going to talk about classes? GIVE ME CLASSES.&rdquo;</p>
 
 <p>Alright, alright, no need to get all frothy-mouthed. I&rsquo;m getting there.</p>
 
@@ -70,12 +70,12 @@ end
 <p>To make an instance of this class (aka, an object), you do this:</p>
 
 <pre><code class="ruby">newcat = Cat.new("Olivia")
-
-newcat.meow
-meow meow
 </code></pre>
 
 <p>Here we also pass this new cat object a name variable containing the name of the cat, Olivia. We can make Olivia meow by simply saying newcat.meow (which will print out &ldquo;meow meow&rdquo; to the screen) since we defined this meow method for the cat class.</p>
+
+<pre><code class="ruby">newcat.meow
+</code></pre>
 
 <p>And that&rsquo;s it for today folks. Back to the grind, and hopefully I&rsquo;ll have much more to share with you soon.</p>
 ]]></content>
