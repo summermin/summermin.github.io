@@ -4,7 +4,7 @@
   <title><![CDATA[Forward Slash.]]></title>
   <link href="http://summermin.github.io/atom.xml" rel="self"/>
   <link href="http://summermin.github.io/"/>
-  <updated>2015-04-09T14:33:30-04:00</updated>
+  <updated>2015-04-09T20:52:32-04:00</updated>
   <id>http://summermin.github.io/</id>
   <author>
     <name><![CDATA[Summer Min]]></name>
@@ -12,6 +12,70 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    
+    <title type="html"><![CDATA[Class Schmass]]></title>
+    <link href="http://summermin.github.io/blog/2015/04/09/class-schmass/"/>
+    
+    <updated>2015-04-09T19:43:38-04:00</updated>
+    <id>http://summermin.github.io/blog/2015/04/09/class-schmass</id>
+    
+    <content type="html"><![CDATA[<p>Nine days into my programming education, I am realizing 1. I know jack shit and 2. I am certainly not as clever as I thought. So an approporiate first post would be on a topic which has been challenging me lately: Ruby classes. Let&rsquo;s dive right in shall we?</p>
+
+<p>When you strip Ruby down to its bare bones, I find that it consists simply of two things: objects and methods. Everything in ruby is an object (the number 1, the word &ldquo;hello&rdquo;) and methods are what you can do to those objects.</p>
+
+<p>For example, you can tell ruby to reverse your name (your name being the object and reverse being the method). It would look something like this:</p>
+
+<p>&ldquo;Summer&rdquo;.reverse
+=> &ldquo;remmuS&rdquo;</p>
+
+<p>See? my name in reverse! Cool, huh? But you&rsquo;re asking, &ldquo;Summer, I thought we were going to talk about classes? GIVE ME CLASSES.&rdquo;</p>
+
+<p>Alright, alright, no need to get all frothy-mouthed. I&rsquo;m getting there.</p>
+
+<p>Every object in ruby belongs to a specific class. You can check what class it is by simply calling &ldquo;.class&rdquo; on an object, like this:</p>
+
+<p>&ldquo;Summer&rdquo;.class
+=> String</p>
+
+<p>1.class
+=> Fixnum</p>
+
+<p>Man, ruby is so smart. It knows that my name in quotes is a string and the number 1 is a number. So why is this important? Well, what class an object is determines what methods you can call on it. Take a look here:</p>
+
+<p>1234.reverse
+NoMethodError: undefined method `length&#8217; for 1234:Fixnum</p>
+
+<p>&ldquo;1234&rdquo;.reverse
+=> &ldquo;4321&rdquo;</p>
+
+<p>When you try to run reverse on a number, ruby doesn&rsquo;t know what you&rsquo;re talking about. If you really wanted to get 4321, you could turn that number into a string by adding quotes around it. So quick recap: classes determine what methods you can use. Strings have their own set of methods, numbers have their own set, arrays have their own set, etc etc. Alright, take a deep breath, you with me? Just one more thing and we&rsquo;re done.</p>
+
+<p>You can make your own classes and define the methods which the class can use. With these custom classes, you can do some pretty powerful stuff, what kind of stuff? We&rsquo;ll leave that for another post. Here, I&rsquo;ll provide a very simple example. Let&rsquo;s make a cat class.</p>
+
+<p>class Cat</p>
+
+<p>  def initialize(name)
+    @name = name
+  end</p>
+
+<p>  def meow
+    puts &ldquo;meow meow&rdquo;
+  end</p>
+
+<p>end</p>
+
+<p>To make an instance of this class (aka, an object), you do this:</p>
+
+<p>newcat = Cat.new(&ldquo;Olivia&rdquo;)</p>
+
+<p>Here we also pass this new cat object a name variable containing the name of the cat, Olivia. We can make Olivia meow by simply saying newcat.meow since we defined this meow method for the cat class.</p>
+
+<p>And that&rsquo;s it for today folks. Back to the grind, and hopefully I&rsquo;ll have much more to share with you soon.</p>
+]]></content>
+    
+  </entry>
   
   <entry>
     
