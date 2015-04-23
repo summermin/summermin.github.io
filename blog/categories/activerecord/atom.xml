@@ -4,7 +4,7 @@
   <title><![CDATA[Category: activerecord | Forward Slash.]]></title>
   <link href="http://summermin.github.io/blog/categories/activerecord/atom.xml" rel="self"/>
   <link href="http://summermin.github.io/"/>
-  <updated>2015-04-22T23:31:13-04:00</updated>
+  <updated>2015-04-22T23:31:47-04:00</updated>
   <id>http://summermin.github.io/</id>
   <author>
     <name><![CDATA[Summer Min]]></name>
@@ -20,8 +20,8 @@
     <id>http://summermin.github.io/blog/2015/04/22/a-conversation-about-abstraction</id>
     <content type="html"><![CDATA[<p>Today, rather than an educational presentation, I wanted to have an open dialogue about abstraction when we write code. What is it? Why is it great? Is it ever bad?</p>
 
-<p><img class="left" src="/images/Cornelis_Kick_01.jpg" width="360" height="500">
-<img class="right" src="/images/Fick_0014-_Abstract_Flowers.jpg" width="360" height="500"></p>
+<p><img class="left" src="/images/Cornelis_Kick_01.jpg" width="355" height="500">
+<img class="right" src="/images/Fick_0014-_Abstract_Flowers.jpg" width="355" height="500"></p>
 
 <p>First of all, what exactly is abstraction? I would define it as the removal of details so that whatever thing it is we&rsquo;re abstracting moves farther and farther away from the literal representation of it. Abstraction is wonderful for programmers because it allows us to create dynamic code that can be used and reused again without having to actually type out every line each timec. The best way for me to describe it would be some examples.</p>
 
