@@ -1,27 +1,101 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Forward Slash.]]></title>
-  <link href="http://summermin.github.io/atom.xml" rel="self"/>
-  <link href="http://summermin.github.io/"/>
-  <updated>2015-04-22T22:20:45-04:00</updated>
-  <id>http://summermin.github.io/</id>
-  <author>
-    <name><![CDATA[Summer Min]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>A Conversation About Abstraction - Forward Slash.</title>
+  <meta name="author" content="Summer Min">
 
   
-  <entry>
+  <meta name="description" content="Today, rather than an educational presentation, I wanted to have an open dialogue about abstraction when we write code. What is it? Why is it great? &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://summermin.github.io/blog/2015/04/22/a-conversation-about-abstraction">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Forward Slash." type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+
+  
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner">
+	<div class="header-title"><a href="/">Forward Slash.</a></div>
+
+
+	<br><div class="header-subtitle">a codetrip to the wild west</div>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:summermin.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+  
     
-    <title type="html"><![CDATA[A Conversation About Abstraction]]></title>
-    <link href="http://summermin.github.io/blog/2015/04/22/a-conversation-about-abstraction/"/>
+      <h1 class="entry-title">A Conversation About Abstraction</h1>
     
-    <updated>2015-04-22T20:32:01-04:00</updated>
-    <id>http://summermin.github.io/blog/2015/04/22/a-conversation-about-abstraction</id>
+  
     
-    <content type="html"><![CDATA[<p>Today, rather than an educational presentation, I wanted to have an open dialogue about abstraction when we write code. What is it? Why is it great? Is it ever bad?</p>
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-22T20:32:01-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Today, rather than an educational presentation, I wanted to have an open dialogue about abstraction when we write code. What is it? Why is it great? Is it ever bad?</p>
 
 <p>First of all, what exactly is abstraction? I would define it as the removal of details so that whatever thing it is we&rsquo;re abstracting moves farther and farther away from the literal representation of it. Abstraction is wonderful for programmers because it allows us to create dynamic code that can be used and reused again without having to actually type out every line of code each time. The best way for me to describe it would be some examples.</p>
 
@@ -126,125 +200,120 @@
 <p>I think it&rsquo;s pretty clear how powerful abstraction can be. I helps us be more efficient, less redundant, and make beautiful code. However, something I have been pondering lately is this: is there ever a point in which we have abstracted something too much? I would say yes. Let&rsquo;s look at those flowers up top. Now draw a line on a piece of paper. I&rsquo;m telling you now that the circle you just drew is an abstract flower. What do you think? That&rsquo;s stupid isn&rsquo;t it? Because it&rsquo;s unrecognizable. It looks like nothing in particular, but it&rsquo;s actually an abstract flower, you just can&rsquo;t tell.</p>
 
 <p>Now, over-abstracting code isn&rsquo;t as simple as that, but if you wrote some super clever and abstract code, then look back at it a month later and have no clue how it&rsquo;s actually working, I might consider it a little too abstract. That being said, I also think it depends on how experienced you and the people around you are. Take someone like me, at this point in my programming education, I need most things to be on the explicit side, but five years in, I&rsquo;ll probably be writing two lines of Ruby in what takes me 50 lines to do now, but as long as I (and the people I work with) can still understand its functions, I say: abstract away.</p>
-]]></content>
-    
-  </entry>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
   
-  <entry>
-    
-    <title type="html"><![CDATA[Class Schmass]]></title>
-    <link href="http://summermin.github.io/blog/2015/04/09/class-schmass/"/>
-    
-    <updated>2015-04-09T19:43:38-04:00</updated>
-    <id>http://summermin.github.io/blog/2015/04/09/class-schmass</id>
-    
-    <content type="html"><![CDATA[<p>Nine days into my programming education, I am realizing 1. I know jack shit and 2. I am certainly not as clever as I thought. So an approporiate first post would be on a topic which has been challenging me lately: Ruby classes. Let&rsquo;s dive right in shall we?</p>
 
-<p>When you strip Ruby down to its bare bones, I find that it consists simply of two things: objects and methods. Almost everything in ruby is an object (the number 1, the word &ldquo;hello&rdquo;) and methods are what you can do to those objects.</p>
+<span class="byline author vcard">Posted by <span class="fn">Summer Min</span></span>
 
-<p>For example, you can tell ruby to reverse your name (your name being the object and reverse being the method). It would look something like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="s2">&quot;Summer&quot;</span><span class="o">.</span><span class="n">reverse</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;remmuS&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
+      
 
 
-<p>See? my name in reverse! Cool, huh? But you&rsquo;re thinking, &ldquo;Summer, I thought we were going to talk about classes? GIVE ME CLASSES.&rdquo;</p>
-
-<p>Alright, alright, no need to get all frothy-mouthed. I&rsquo;m getting there.</p>
-
-<p>Every object in ruby belongs to a specific class. You can check what class it is by simply calling &ldquo;.class&rdquo; on an object, like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="s2">&quot;Summer&quot;</span><span class="o">.</span><span class="n">class</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="nb">String</span>
-</span><span class='line'>
-</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="n">class</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="no">Fixnum</span>
-</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Man, ruby is so smart. It knows that my name in quotes is a string and the number 1 is a number, or an integer, to be more specific. So why is this important? Well, what class an object is determines what methods you can call on it. Take a look here:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1234</span><span class="o">.</span><span class="n">reverse</span>
-</span><span class='line'><span class="ss">NoMethodError</span><span class="p">:</span> <span class="n">undefined</span> <span class="nb">method</span> <span class="sb">`length&#39; for 1234:Fixnum</span>
-</span></code></pre></td></tr></table></div></figure>
 
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="s2">&quot;1234&quot;</span><span class="o">.</span><span class="n">reverse</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;4321&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
 
 
-<p>When you try to run reverse on an integer, ruby doesn&rsquo;t know what you&rsquo;re talking about. If you really wanted to get 4321, you could turn that integer into a string by adding quotes around it, then the reverse method would work. So quick recap: classes are essentially the framework behind which objects are built, and as such, they determine what methods you can use on an object. Strings have their own set of methods, integers have their own set, arrays have their own set, etc etc. Alright, take a deep breath, you with me? Just one more thing and we&rsquo;re done.</p>
-
-<p>You can make your own class and define the methods which the class can use. With these custom classes, you can do some pretty powerful stuff, what kind of stuff? We&rsquo;ll leave that for another post. Here, I&rsquo;ll provide a very simple example. Let&rsquo;s make a cat class.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Cat</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-</span><span class='line'>    <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">meow</span>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;meow meow&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>To make an instance of this class (aka, an object), you do this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">newcat</span> <span class="o">=</span> <span class="no">Cat</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Olivia&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Here we also pass this new cat object a name variable containing the name of the cat, Olivia. We can make Olivia meow by simply saying newcat.meow (which will print out &ldquo;meow meow&rdquo; to the screen) since we defined this meow method for the cat class.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">newcat</span><span class="o">.</span><span class="n">meow</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And that&rsquo;s it for today folks. Back to the grind, and hopefully I&rsquo;ll have much more to share with you soon.</p>
-]]></content>
-    
-  </entry>
   
-  <entry>
-    
-    <title type="html"><![CDATA[My First Post On Octopress]]></title>
-    <link href="http://summermin.github.io/blog/2015/04/09/my-first-post-on-octopress/"/>
-    
-    <updated>2015-04-09T14:29:06-04:00</updated>
-    <id>http://summermin.github.io/blog/2015/04/09/my-first-post-on-octopress</id>
-    
-    <content type="html"><![CDATA[<p>&ldquo;Hello, World&rdquo;</p>
-]]></content>
-    
-  </entry>
+
+
+<time datetime="2015-04-22T20:32:01-04:00" pubdate data-updated="true"></time>
+      
+
+<span class="categories">
   
-</feed>
+    <a class='category' href='/blog/categories/abstraction/'>abstraction,</a>, <a class='category' href='/blog/categories/activerecord/'>activerecord</a>, <a class='category' href='/blog/categories/flatiron/'>flatiron,</a>, <a class='category' href='/blog/categories/programming/'>programming,</a>, <a class='category' href='/blog/categories/ruby/'>ruby,</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://summermin.github.io/blog/2015/04/22/a-conversation-about-abstraction/" data-via="" data-counturl="http://summermin.github.io/blog/2015/04/22/a-conversation-about-abstraction/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/04/09/class-schmass/" title="Previous Post: Class Schmass">&laquo; Class Schmass</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/04/22/a-conversation-about-abstraction/">A Conversation About Abstraction</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/09/class-schmass/">Class Schmass</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/09/my-first-post-on-octopress/">My First Post On Octopress</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 -  Summer Min <br/>
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> + <a href="https://github.com/ioveracker/mnml">mnml</a>.
+	  
+  </span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

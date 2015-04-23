@@ -9,7 +9,7 @@
   <meta name="author" content="Summer Min">
 
   
-  <meta name="description" content="Nine days into my programming education, I am realizing 1. I know jack shit and 2. I am certainly not as clever as I thought. So an approporiate &hellip;">
+  <meta name="description" content="Today, rather than an educational presentation, I wanted to have an open dialogue about abstraction when we write code. What is it? Why is it great? &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +67,148 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+  
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/22/a-conversation-about-abstraction/">A Conversation About Abstraction</a></h1>
+      
+      
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-22T20:32:01-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Today, rather than an educational presentation, I wanted to have an open dialogue about abstraction when we write code. What is it? Why is it great? Is it ever bad?</p>
+
+<p>First of all, what exactly is abstraction? I would define it as the removal of details so that whatever thing it is we&rsquo;re abstracting moves farther and farther away from the literal representation of it. Abstraction is wonderful for programmers because it allows us to create dynamic code that can be used and reused again without having to actually type out every line of code each time. The best way for me to describe it would be some examples.</p>
+
+<p>Let&rsquo;s take this series of methods from a lab we did in class the other day:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">build_artists_index</span>
+</span><span class='line'>  <span class="no">FileUtils</span><span class="o">.</span><span class="n">mkdir_p</span><span class="p">(</span><span class="n">rendered_path</span> <span class="o">+</span> <span class="s2">&quot;/artists&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">template</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;./app/views/artists/index.html.erb&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">page</span> <span class="o">=</span> <span class="no">ERB</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">template</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">(</span><span class="nb">binding</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">File</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">rendered_path</span><span class="si">}</span><span class="s2">/artists/index.html&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">build_genres_index</span>
+</span><span class='line'>  <span class="no">FileUtils</span><span class="o">.</span><span class="n">mkdir_p</span><span class="p">(</span><span class="n">rendered_path</span> <span class="o">+</span> <span class="s2">&quot;/genres&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">template</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;./app/views/genres/index.html.erb&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">page</span> <span class="o">=</span> <span class="no">ERB</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">template</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">(</span><span class="nb">binding</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">File</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">rendered_path</span><span class="si">}</span><span class="s2">/genres/index.html&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">build_songs_index</span>
+</span><span class='line'>  <span class="no">FileUtils</span><span class="o">.</span><span class="n">mkdir_p</span><span class="p">(</span><span class="n">rendered_path</span> <span class="o">+</span> <span class="s2">&quot;/songs&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">template</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;./app/views/songs/index.html.erb&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">page</span> <span class="o">=</span> <span class="no">ERB</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">template</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">(</span><span class="nb">binding</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">File</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">rendered_path</span><span class="si">}</span><span class="s2">/songs/index.html&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>These are pretty much all the same method except for one part of the path so we can abstract it by creating another method which all of these methods can call, so we only have to type those four lines of code once. Like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">gen_index</span><span class="p">(</span><span class="n">dir</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">FileUtils</span><span class="o">.</span><span class="n">mkdir_p</span><span class="p">(</span><span class="n">rendered_path</span> <span class="o">+</span> <span class="n">dir</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">template</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;./app/views</span><span class="si">#{</span><span class="n">dir</span><span class="si">}</span><span class="s2">/index.html.erb&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">page</span> <span class="o">=</span> <span class="no">ERB</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">template</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">(</span><span class="nb">binding</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">File</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">rendered_path</span><span class="si">}#{</span><span class="n">dir</span><span class="si">}</span><span class="s2">/index.html&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">build_artists_index</span>
+</span><span class='line'>  <span class="n">gen_index</span><span class="p">(</span><span class="s2">&quot;/artists&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">build_genres_index</span>
+</span><span class='line'>  <span class="n">gen_index</span><span class="p">(</span><span class="s2">&quot;/genres&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">build_songs_index</span>
+</span><span class='line'>  <span class="n">gen_index</span><span class="p">(</span><span class="s2">&quot;/songs&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There are ways to abstract this further so we only have to call the method once instead of three times, but I don&rsquo;t want to confuse you too much.</p>
+
+<p>Another example which we (at the Flatiron School!) have been working with lately is ActiveRecord. It&rsquo;s an extremely useful class which wraps up a whole bunch of methods for you (so you don&rsquo;t have to write them yourself, you can simply reap their benefits by calling them) to make extracting, creating, and persisting data to a database very easy. It writes all your sql statements for you, so you can continue working blissfully with ruby.</p>
+
+<p>I think it&rsquo;s pretty clear how powerful abstraction can be. I helps us be more efficient, less redundant, and make beautiful code. However, something I have been pondering lately is this: is there ever a point in which we have abstracted something too much? I would say yes. Let&rsquo;s look at those flowers up top. Now draw a line on a piece of paper. I&rsquo;m telling you now that the circle you just drew is an abstract flower. What do you think? That&rsquo;s stupid isn&rsquo;t it? Because it&rsquo;s unrecognizable. It looks like nothing in particular, but it&rsquo;s actually an abstract flower, you just can&rsquo;t tell.</p>
+
+<p>Now, over-abstracting code isn&rsquo;t as simple as that, but if you wrote some super clever and abstract code, then look back at it a month later and have no clue how it&rsquo;s actually working, I might consider it a little too abstract. That being said, I also think it depends on how experienced you and the people around you are. Take someone like me, at this point in my programming education, I need most things to be on the explicit side, but five years in, I&rsquo;ll probably be writing two lines of Ruby in what takes me 50 lines to do now, but as long as I (and the people I work with) can still understand its functions, I say: abstract away.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -246,6 +388,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/04/22/a-conversation-about-abstraction/">A Conversation About Abstraction</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/04/09/class-schmass/">Class Schmass</a>

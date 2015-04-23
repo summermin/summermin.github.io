@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: ruby, | Forward Slash.]]></title>
-  <link href="http://summermin.github.io/blog/categories/ruby/atom.xml" rel="self"/>
+  <title><![CDATA[Category: activerecord | Forward Slash.]]></title>
+  <link href="http://summermin.github.io/blog/categories/activerecord/atom.xml" rel="self"/>
   <link href="http://summermin.github.io/"/>
   <updated>2015-04-22T22:20:45-04:00</updated>
   <id>http://summermin.github.io/</id>
@@ -97,75 +97,6 @@ end
 <p>I think it&rsquo;s pretty clear how powerful abstraction can be. I helps us be more efficient, less redundant, and make beautiful code. However, something I have been pondering lately is this: is there ever a point in which we have abstracted something too much? I would say yes. Let&rsquo;s look at those flowers up top. Now draw a line on a piece of paper. I&rsquo;m telling you now that the circle you just drew is an abstract flower. What do you think? That&rsquo;s stupid isn&rsquo;t it? Because it&rsquo;s unrecognizable. It looks like nothing in particular, but it&rsquo;s actually an abstract flower, you just can&rsquo;t tell.</p>
 
 <p>Now, over-abstracting code isn&rsquo;t as simple as that, but if you wrote some super clever and abstract code, then look back at it a month later and have no clue how it&rsquo;s actually working, I might consider it a little too abstract. That being said, I also think it depends on how experienced you and the people around you are. Take someone like me, at this point in my programming education, I need most things to be on the explicit side, but five years in, I&rsquo;ll probably be writing two lines of Ruby in what takes me 50 lines to do now, but as long as I (and the people I work with) can still understand its functions, I say: abstract away.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Class Schmass]]></title>
-    <link href="http://summermin.github.io/blog/2015/04/09/class-schmass/"/>
-    <updated>2015-04-09T19:43:38-04:00</updated>
-    <id>http://summermin.github.io/blog/2015/04/09/class-schmass</id>
-    <content type="html"><![CDATA[<p>Nine days into my programming education, I am realizing 1. I know jack shit and 2. I am certainly not as clever as I thought. So an approporiate first post would be on a topic which has been challenging me lately: Ruby classes. Let&rsquo;s dive right in shall we?</p>
-
-<p>When you strip Ruby down to its bare bones, I find that it consists simply of two things: objects and methods. Almost everything in ruby is an object (the number 1, the word &ldquo;hello&rdquo;) and methods are what you can do to those objects.</p>
-
-<p>For example, you can tell ruby to reverse your name (your name being the object and reverse being the method). It would look something like this:</p>
-
-<pre><code class="ruby">"Summer".reverse
-=&gt; "remmuS" 
-</code></pre>
-
-<p>See? my name in reverse! Cool, huh? But you&rsquo;re thinking, &ldquo;Summer, I thought we were going to talk about classes? GIVE ME CLASSES.&rdquo;</p>
-
-<p>Alright, alright, no need to get all frothy-mouthed. I&rsquo;m getting there.</p>
-
-<p>Every object in ruby belongs to a specific class. You can check what class it is by simply calling &ldquo;.class&rdquo; on an object, like this:</p>
-
-<pre><code class="ruby">"Summer".class
-=&gt; String 
-
-1.class
-=&gt; Fixnum 
-</code></pre>
-
-<p>Man, ruby is so smart. It knows that my name in quotes is a string and the number 1 is a number, or an integer, to be more specific. So why is this important? Well, what class an object is determines what methods you can call on it. Take a look here:</p>
-
-<pre><code class="ruby">1234.reverse
-NoMethodError: undefined method `length' for 1234:Fixnum
-</code></pre>
-
-<pre><code class="ruby">"1234".reverse
-=&gt; "4321" 
-</code></pre>
-
-<p>When you try to run reverse on an integer, ruby doesn&rsquo;t know what you&rsquo;re talking about. If you really wanted to get 4321, you could turn that integer into a string by adding quotes around it, then the reverse method would work. So quick recap: classes are essentially the framework behind which objects are built, and as such, they determine what methods you can use on an object. Strings have their own set of methods, integers have their own set, arrays have their own set, etc etc. Alright, take a deep breath, you with me? Just one more thing and we&rsquo;re done.</p>
-
-<p>You can make your own class and define the methods which the class can use. With these custom classes, you can do some pretty powerful stuff, what kind of stuff? We&rsquo;ll leave that for another post. Here, I&rsquo;ll provide a very simple example. Let&rsquo;s make a cat class.</p>
-
-<pre><code class="ruby">class Cat
-
-  def initialize(name)
-    @name = name
-  end
-
-  def meow
-    puts "meow meow"
-  end
-
-end
-</code></pre>
-
-<p>To make an instance of this class (aka, an object), you do this:</p>
-
-<pre><code class="ruby">newcat = Cat.new("Olivia")
-</code></pre>
-
-<p>Here we also pass this new cat object a name variable containing the name of the cat, Olivia. We can make Olivia meow by simply saying newcat.meow (which will print out &ldquo;meow meow&rdquo; to the screen) since we defined this meow method for the cat class.</p>
-
-<pre><code class="ruby">newcat.meow
-</code></pre>
-
-<p>And that&rsquo;s it for today folks. Back to the grind, and hopefully I&rsquo;ll have much more to share with you soon.</p>
 ]]></content>
   </entry>
   
