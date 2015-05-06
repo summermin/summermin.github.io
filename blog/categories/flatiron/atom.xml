@@ -4,7 +4,7 @@
   <title><![CDATA[Category: flatiron | Forward Slash.]]></title>
   <link href="http://summermin.github.io/blog/categories/flatiron/atom.xml" rel="self"/>
   <link href="http://summermin.github.io/"/>
-  <updated>2015-04-22T23:41:06-04:00</updated>
+  <updated>2015-05-06T00:47:21-04:00</updated>
   <id>http://summermin.github.io/</id>
   <author>
     <name><![CDATA[Summer Min]]></name>
@@ -12,6 +12,123 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The Dark Side of the Force: SQL Injection and Mass Assignment]]></title>
+    <link href="http://summermin.github.io/blog/2015/05/05/the-dark-side-of-the-force-sql-injection-and-mass-assignment/"/>
+    <updated>2015-05-05T18:30:35-04:00</updated>
+    <id>http://summermin.github.io/blog/2015/05/05/the-dark-side-of-the-force-sql-injection-and-mass-assignment</id>
+    <content type="html"><![CDATA[<p>At the Flatiron School, we are surrounded by passionate people who are all here to learn and all more invested in our educations than at any other institution of learning I have ever attended. We all build each other up and have grand ideas of the kind of programmers we will be in a few years. Unfortunately, the bubble which we live in doesn&rsquo;t always extend to the rest of the world. And lest you or I think that the entire world of programming is all rainbows and niceties, I&rsquo;m here today to say &ldquo;no!&rdquo; For every good person you encounter, undoubtedly there is another who is trying to screw you for their own nefarious purposes.</p>
+
+<p>Here we will cover two ways in which you can get royally nailed to the wall as well as some precautions you can take to avoid them.</p>
+
+<p>First is sql injections. Most applications, especially if they involve users and passwords will be backed up by a database to store all that information. With malicious sql injections, people can completely destroy your tables or worse, steal users&#8217; passwords. It goes something like this.</p>
+
+<pre><code class="ruby">def so_much_bunny
+  sql = &lt;&lt;-SQL
+    SELECT *
+    FROM bunnies
+    WHERE bunnies.name = "#{name}"
+  SQL
+
+  DB.execute(sql)
+end
+</code></pre>
+
+<p>Now if your name variable were set to, lets say &ldquo;Marvin&rdquo;, that&rsquo;s all fine and dandy, you would get back a row matching the bunny Marvin. But a less than ethical programmer might set name = &ldquo; OR 1 &ndash; which would run sql code that looked something like this</p>
+
+<pre><code class="ruby">def so_much_bunny
+  sql = &lt;&lt;-SQL
+    SELECT *
+    FROM bunnies
+    WHERE bunnies.name = "" OR 1 -- "
+  SQL
+
+  DB.execute(sql)
+end
+</code></pre>
+
+<p>What happens is the &ldquo;OR 1&rdquo; returns true and everything else after it is commented out due to the double dash. So you would get back all the records in the table bunnies because your where statement has essentially been changed to &ldquo;WHERE true&rdquo; instead of actually needing a bunny&rsquo;s name and returning only the row where it finds a match. Not very secure, eh?</p>
+
+<p>One solution to this problem is never using string interpolation. You can sanitize the data by using parameters and passing them in like so:</p>
+
+<pre><code class="ruby">def so_much_bunny
+  sql = &lt;&lt;-SQL
+    SELECT *
+    FROM bunnies
+    WHERE bunnies.name = ?
+  SQL
+
+  DB.execute(sql, name)
+end
+</code></pre>
+
+<p>This will escape any special characters, so if someone tried to pass in &ldquo; OR 1 &ndash;, the quote would get escaped and treated like a part of the string rather than a closing of the name query.</p>
+
+<p>In rails, the correct form would look something like this
+<code>ruby
+Bunny.where("name = ?", params[:name])
+</code></p>
+
+<p>Moving on, our second point of discussion is mass assignment in rails. Mass assignment is extremely useful as it allows you to create a new instance of a class and populate all it&rsquo;s fields by just passing in a hash. So instead of doing this:</p>
+
+<pre><code class="ruby">@bunny = Bunny.new
+@bunny.name = "Margaret"
+@bunny.status = "Happy"
+@bunny.weight = "Heavy"
+@bunny.color = "Brown"
+@bunny.age = 2
+</code></pre>
+
+<p>you can just pass in a hash called bunny_params that holds all the information</p>
+
+<pre><code class="ruby">@bunny = Bunny.new(bunny_params)
+</code></pre>
+
+<p>Unfortunately, with mass assignment, it&rsquo;s possible to have a user change an attribute you don&rsquo;t want them to touch. Let&rsquo;s say we had an attribute &ldquo;free_bunnies&rdquo; that was set to a default boolean of false, and we don&rsquo;t want users to willy nilly have the ability to free all the bunnies. Using mass assignment with no limitations, they very well can.</p>
+
+<p>For example, if you had a form to create bunnies, that contained fields for name, status, weight, etc, but not a field for free_bunnies since you don&rsquo;t want the user changing it it would look something like this:</p>
+
+<pre><code class="ruby">&lt;%= form_for(@bunny) do |f| %&gt;
+  &lt;div class="field"&gt;
+      &lt;%= f.label :name %&gt;&lt;br&gt;
+      &lt;%= f.text_field :name %&gt;
+    &lt;/div&gt;
+    &lt;div class="field"&gt;
+      &lt;%= f.label :status %&gt;&lt;br&gt;
+      &lt;%= f.text_field :status %&gt;
+    &lt;/div&gt;
+    &lt;div class="field"&gt;
+      &lt;%= f.label :weight %&gt;&lt;br&gt;
+      &lt;%= f.text_field :weight %&gt;
+    &lt;/div&gt;
+&lt;% end %&gt;
+</code></pre>
+
+<p>without any limitations on mass params, the user can change the form easily in their browser to pass free_bunnies to params instead of name and set the value to true and it would be passed through when creating a new bunny. So the original html would look like this
+<code>html
+&lt;input type="text" name="bunny[name]" id="bunny_name"&gt;
+</code>
+and the fanagled one would look like this
+<code>html
+&lt;input type="text" name="bunny[free_bunnies]" id="bunny_free_bunnies"&gt;
+</code></p>
+
+<p>The solution here, or at least one solution, is something called strong parameters. Essentially, you have to whitelist the attributes you want to allow, otherwise they will get passed into the params hash but will be &ldquo;kicked out&rdquo; and not allowed when you say create your new object and you&rsquo;ll get an error saying &ldquo;Unpermitted parameters: x, y, z&rdquo;.</p>
+
+<p>Back in Rails 3, you used to have to require a strong params gem, but now in the current version of Rails it&rsquo;s build in. When you generate a controller (for bunnies in this case), you will automatically get some lines that look like this</p>
+
+<pre><code class="ruby">    # Never trust parameters from the scary internet, only allow the white list through.
+    def bunny_params
+      params.require(:bunny).permit(:name, :status, :weight, :color, :age)
+    end
+</code></pre>
+
+<p>By default all of the fields will be permitted, you will have to set what you will or won&rsquo;t allow users to pass through, and that&rsquo;s that!</p>
+
+<p>Now, I&rsquo;m still no expert in the nefarious ways which you can use code, so enlighten me! What are the worst things you can think of to do if someone failed to account for malicious sql injections or accidentally whitelisted a param that they didn&rsquo;t mean to?</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[A Conversation About Abstraction]]></title>

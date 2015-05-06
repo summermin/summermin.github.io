@@ -4,7 +4,7 @@
   <title><![CDATA[Forward Slash.]]></title>
   <link href="http://summermin.github.io/atom.xml" rel="self"/>
   <link href="http://summermin.github.io/"/>
-  <updated>2015-04-22T23:41:06-04:00</updated>
+  <updated>2015-05-06T00:47:21-04:00</updated>
   <id>http://summermin.github.io/</id>
   <author>
     <name><![CDATA[Summer Min]]></name>
@@ -12,6 +12,193 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    
+    <title type="html"><![CDATA[The Dark Side of the Force: SQL Injection and Mass Assignment]]></title>
+    <link href="http://summermin.github.io/blog/2015/05/05/the-dark-side-of-the-force-sql-injection-and-mass-assignment/"/>
+    
+    <updated>2015-05-05T18:30:35-04:00</updated>
+    <id>http://summermin.github.io/blog/2015/05/05/the-dark-side-of-the-force-sql-injection-and-mass-assignment</id>
+    
+    <content type="html"><![CDATA[<p>At the Flatiron School, we are surrounded by passionate people who are all here to learn and all more invested in our educations than at any other institution of learning I have ever attended. We all build each other up and have grand ideas of the kind of programmers we will be in a few years. Unfortunately, the bubble which we live in doesn&rsquo;t always extend to the rest of the world. And lest you or I think that the entire world of programming is all rainbows and niceties, I&rsquo;m here today to say &ldquo;no!&rdquo; For every good person you encounter, undoubtedly there is another who is trying to screw you for their own nefarious purposes.</p>
+
+<p>Here we will cover two ways in which you can get royally nailed to the wall as well as some precautions you can take to avoid them.</p>
+
+<p>First is sql injections. Most applications, especially if they involve users and passwords will be backed up by a database to store all that information. With malicious sql injections, people can completely destroy your tables or worse, steal users&#8217; passwords. It goes something like this.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">so_much_bunny</span>
+</span><span class='line'>  <span class="n">sql</span> <span class="o">=</span> <span class="o">&lt;&lt;-</span><span class="no">SQL</span>
+</span><span class='line'><span class="sh">    SELECT *</span>
+</span><span class='line'><span class="sh">    FROM bunnies</span>
+</span><span class='line'><span class="sh">    WHERE bunnies.name = &quot;#{name}&quot;</span>
+</span><span class='line'><span class="no">  SQL</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="no">DB</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now if your name variable were set to, lets say &ldquo;Marvin&rdquo;, that&rsquo;s all fine and dandy, you would get back a row matching the bunny Marvin. But a less than ethical programmer might set name = &ldquo; OR 1 &ndash; which would run sql code that looked something like this</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">so_much_bunny</span>
+</span><span class='line'>  <span class="n">sql</span> <span class="o">=</span> <span class="o">&lt;&lt;-</span><span class="no">SQL</span>
+</span><span class='line'><span class="sh">    SELECT *</span>
+</span><span class='line'><span class="sh">    FROM bunnies</span>
+</span><span class='line'><span class="sh">    WHERE bunnies.name = &quot;&quot; OR 1 -- &quot;</span>
+</span><span class='line'><span class="no">  SQL</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="no">DB</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>What happens is the &ldquo;OR 1&rdquo; returns true and everything else after it is commented out due to the double dash. So you would get back all the records in the table bunnies because your where statement has essentially been changed to &ldquo;WHERE true&rdquo; instead of actually needing a bunny&rsquo;s name and returning only the row where it finds a match. Not very secure, eh?</p>
+
+<p>One solution to this problem is never using string interpolation. You can sanitize the data by using parameters and passing them in like so:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">so_much_bunny</span>
+</span><span class='line'>  <span class="n">sql</span> <span class="o">=</span> <span class="o">&lt;&lt;-</span><span class="no">SQL</span>
+</span><span class='line'><span class="sh">    SELECT *</span>
+</span><span class='line'><span class="sh">    FROM bunnies</span>
+</span><span class='line'><span class="sh">    WHERE bunnies.name = ?</span>
+</span><span class='line'><span class="no">  SQL</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="no">DB</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="nb">name</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will escape any special characters, so if someone tried to pass in &ldquo; OR 1 &ndash;, the quote would get escaped and treated like a part of the string rather than a closing of the name query.</p>
+
+<p>In rails, the correct form would look something like this</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Bunny</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;name = ?&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">[</span><span class="ss">:name</span><span class="o">]</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Moving on, our second point of discussion is mass assignment in rails. Mass assignment is extremely useful as it allows you to create a new instance of a class and populate all it&rsquo;s fields by just passing in a hash. So instead of doing this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@bunny</span> <span class="o">=</span> <span class="no">Bunny</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="vi">@bunny</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Margaret&quot;</span>
+</span><span class='line'><span class="vi">@bunny</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;Happy&quot;</span>
+</span><span class='line'><span class="vi">@bunny</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="s2">&quot;Heavy&quot;</span>
+</span><span class='line'><span class="vi">@bunny</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;Brown&quot;</span>
+</span><span class='line'><span class="vi">@bunny</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="mi">2</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>you can just pass in a hash called bunny_params that holds all the information</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@bunny</span> <span class="o">=</span> <span class="no">Bunny</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">bunny_params</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Unfortunately, with mass assignment, it&rsquo;s possible to have a user change an attribute you don&rsquo;t want them to touch. Let&rsquo;s say we had an attribute &ldquo;free_bunnies&rdquo; that was set to a default boolean of false, and we don&rsquo;t want users to willy nilly have the ability to free all the bunnies. Using mass assignment with no limitations, they very well can.</p>
+
+<p>For example, if you had a form to create bunnies, that contained fields for name, status, weight, etc, but not a field for free_bunnies since you don&rsquo;t want the user changing it it would look something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">%= form_for(@bunny) do |f| %&gt;</span>
+</span><span class='line'><span class="sx">  &lt;div class=</span><span class="s2">&quot;field&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>      <span class="o">&lt;</span><span class="sx">%= f.label :name %&gt;&lt;br&gt;</span>
+</span><span class='line'><span class="sx">      &lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:name</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">    &lt;/div&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;field&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>      <span class="o">&lt;</span><span class="sx">%= f.label :status %&gt;&lt;br&gt;</span>
+</span><span class='line'><span class="sx">      &lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:status</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">    &lt;/div&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;field&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>      <span class="o">&lt;</span><span class="sx">%= f.label :weight %&gt;&lt;br&gt;</span>
+</span><span class='line'><span class="sx">      &lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:weight</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">    &lt;/div&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sx">% end </span><span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>without any limitations on mass params, the user can change the form easily in their browser to pass free_bunnies to params instead of name and set the value to true and it would be passed through when creating a new bunny. So the original html would look like this</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;bunny[name]&quot;</span> <span class="na">id=</span><span class="s">&quot;bunny_name&quot;</span><span class="nt">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and the fanagled one would look like this</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">name=</span><span class="s">&quot;bunny[free_bunnies]&quot;</span> <span class="na">id=</span><span class="s">&quot;bunny_free_bunnies&quot;</span><span class="nt">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The solution here, or at least one solution, is something called strong parameters. Essentially, you have to whitelist the attributes you want to allow, otherwise they will get passed into the params hash but will be &ldquo;kicked out&rdquo; and not allowed when you say create your new object and you&rsquo;ll get an error saying &ldquo;Unpermitted parameters: x, y, z&rdquo;.</p>
+
+<p>Back in Rails 3, you used to have to require a strong params gem, but now in the current version of Rails it&rsquo;s build in. When you generate a controller (for bunnies in this case), you will automatically get some lines that look like this</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Never trust parameters from the scary internet, only allow the white list through.</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">bunny_params</span>
+</span><span class='line'>  <span class="n">params</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="ss">:bunny</span><span class="p">)</span><span class="o">.</span><span class="n">permit</span><span class="p">(</span><span class="ss">:name</span><span class="p">,</span> <span class="ss">:status</span><span class="p">,</span> <span class="ss">:weight</span><span class="p">,</span> <span class="ss">:color</span><span class="p">,</span> <span class="ss">:age</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>By default all of the fields will be permitted, you will have to set what you will or won&rsquo;t allow users to pass through, and that&rsquo;s that!</p>
+
+<p>Now, I&rsquo;m still no expert in the nefarious ways which you can use code, so enlighten me! What are the worst things you can think of to do if someone failed to account for malicious sql injections or accidentally whitelisted a param that they didn&rsquo;t mean to?</p>
+]]></content>
+    
+  </entry>
   
   <entry>
     
