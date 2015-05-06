@@ -4,7 +4,7 @@
   <title><![CDATA[Category: flatiron | Forward Slash.]]></title>
   <link href="http://summermin.github.io/blog/categories/flatiron/atom.xml" rel="self"/>
   <link href="http://summermin.github.io/"/>
-  <updated>2015-05-06T00:47:21-04:00</updated>
+  <updated>2015-05-06T00:58:56-04:00</updated>
   <id>http://summermin.github.io/</id>
   <author>
     <name><![CDATA[Summer Min]]></name>
@@ -48,7 +48,7 @@ end
 end
 </code></pre>
 
-<p>What happens is the &ldquo;OR 1&rdquo; returns true and everything else after it is commented out due to the double dash. So you would get back all the records in the table bunnies because your where statement has essentially been changed to &ldquo;WHERE true&rdquo; instead of actually needing a bunny&rsquo;s name and returning only the row where it finds a match. Not very secure, eh?</p>
+<p>What happens is the &ldquo;OR 1&rdquo; returns true and everything else after is commented out due to the double dash. So you would get back all the records in the table bunnies because your where statement has essentially been changed to &ldquo;WHERE true&rdquo; instead of actually needing a bunny&rsquo;s name and returning only the row where it finds a match. Not very secure, eh?</p>
 
 <p>One solution to this problem is never using string interpolation. You can sanitize the data by using parameters and passing them in like so:</p>
 

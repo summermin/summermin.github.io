@@ -148,7 +148,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>What happens is the &ldquo;OR 1&rdquo; returns true and everything else after it is commented out due to the double dash. So you would get back all the records in the table bunnies because your where statement has essentially been changed to &ldquo;WHERE true&rdquo; instead of actually needing a bunny&rsquo;s name and returning only the row where it finds a match. Not very secure, eh?</p>
+<p>What happens is the &ldquo;OR 1&rdquo; returns true and everything else after is commented out due to the double dash. So you would get back all the records in the table bunnies because your where statement has essentially been changed to &ldquo;WHERE true&rdquo; instead of actually needing a bunny&rsquo;s name and returning only the row where it finds a match. Not very secure, eh?</p>
 
 <p>One solution to this problem is never using string interpolation. You can sanitize the data by using parameters and passing them in like so:</p>
 
