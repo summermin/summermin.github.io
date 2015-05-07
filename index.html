@@ -257,7 +257,7 @@
 
 <p>The solution here, or at least one solution, is something called strong parameters. Essentially, you have to whitelist the attributes you want to allow, otherwise they will get passed into the params hash but will be &ldquo;kicked out&rdquo; and not allowed when you create your new object and you&rsquo;ll get an error saying &ldquo;Unpermitted parameters: x, y, z&rdquo;.</p>
 
-<p>Back in Rails 3, you used to have to require a strong params gem, but now in the current version of Rails it&rsquo;s built in. When you generate a controller (for bunnies in this case), you will automatically get some lines that look like this</p>
+<p>Back in Rails 3, you used to have to require a strong params gem, but now in the current version of Rails it&rsquo;s built in. When you generate a scaffold (for bunnies in this case) with the associated fields, you will automatically get some lines that look like this</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: flatiron | Forward Slash.]]></title>
   <link href="http://summermin.github.io/blog/categories/flatiron/atom.xml" rel="self"/>
   <link href="http://summermin.github.io/"/>
-  <updated>2015-05-06T01:11:34-04:00</updated>
+  <updated>2015-05-07T13:22:09-04:00</updated>
   <id>http://summermin.github.io/</id>
   <author>
     <name><![CDATA[Summer Min]]></name>
@@ -116,7 +116,7 @@ and the fanagled one would look like this
 
 <p>The solution here, or at least one solution, is something called strong parameters. Essentially, you have to whitelist the attributes you want to allow, otherwise they will get passed into the params hash but will be &ldquo;kicked out&rdquo; and not allowed when you create your new object and you&rsquo;ll get an error saying &ldquo;Unpermitted parameters: x, y, z&rdquo;.</p>
 
-<p>Back in Rails 3, you used to have to require a strong params gem, but now in the current version of Rails it&rsquo;s built in. When you generate a controller (for bunnies in this case), you will automatically get some lines that look like this</p>
+<p>Back in Rails 3, you used to have to require a strong params gem, but now in the current version of Rails it&rsquo;s built in. When you generate a scaffold (for bunnies in this case) with the associated fields, you will automatically get some lines that look like this</p>
 
 <pre><code class="ruby">    # Never trust parameters from the scary internet, only allow the white list through.
     def bunny_params
