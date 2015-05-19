@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Setting Up Heroku &amp; Why the FB API is Kind of a Pain - Forward Slash.</title>
+  <meta name="author" content="Summer Min">
+
+  
+  <meta name="description" content="Ahh, those days when you have a brilliant (or not so brilliant) idea and want to make a cool app. You set up Heroku so other people can use it, set &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://summermin.github.io/blog/2015/05/18/setting-up-heroku-and-why-the-fb-api-is-kind-of-a-pain">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Forward Slash." type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+
+  
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner">
+	<div class="header-title"><a href="/">Forward Slash.</a></div>
+
+
+	<br><div class="header-subtitle">a codetrip to the wild west</div>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:summermin.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+  
+    
+      <h1 class="entry-title">Setting Up Heroku &amp; Why the FB API Is Kind of a Pain</h1>
+    
+  
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-18T23:28:44-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Ahh, those days when you have a brilliant (or not so brilliant) idea and want to make a cool app. You set up Heroku so other people can use it, set up an api to start requesting data, and eagerly start coding, right? &hellip;More like, you realize Facebook requires you to apply for permission if you want to use anything more than the barebones data they give you default access to (a process which they say can take up to 7 to 14 business days)&hellip;so that app you wanted to build overnight turns into a woeful blog post about what little you&rsquo;ve been able to accomplish thus far, which is this, and only this: <a href="http://eng-rish.herokuapp.com/">http://eng-rish.herokuapp.com/</a></p>
+
+<p>What I wanted to do was pull all of a user&rsquo;s Facebook posts and tally up their most commonly used words to see not only how sophisticated their vocabulary is, but maybe how egotistical they are, how angry, and other such nonsense. Maybe chart that information using Chart.js or some other cool library. Now we&rsquo;ll never know, at least until Facebook approves my application that is.</p>
+
+<p>Okay, let&rsquo;s get started with Heroku, shall we? First if you don&rsquo;t already have an account, sign up here: <a href="https://dashboard.heroku.com/apps">https://dashboard.heroku.com/apps</a></p>
+
+<p>Keep in mind you need a web app in order to deploy to Heroku, you can do a quick rails new and set up an index.html.erb page so there&rsquo;s something to display on your root directory. Also make sure your project is a git repository and you&rsquo;ve been pushing all your changes to github (just to be safe), you&rsquo;ll also be using git to push to Heroku. Once you have a Heroku account you need to install their toolbelt, after which you can login in your terminal using by typing</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>heroku login</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You&rsquo;ll be prompted for your credentials which hopefully you remember. Then in order to create a Heroku app, you can run</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>heroku create [optional name]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you don&rsquo;t pass it a name, Heroku will automatically generally something silly like limitless-peak-5480, which is actually pretty snazzy if that&rsquo;s what you&rsquo;re into. If you accidentally forget to pass in a name, don&rsquo;t worry! You can change the name using</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>heroku apps:rename [newname]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To deploy the code you have, simply run</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git push heroku master</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But wait! A few things first. Heroku uses posgres, but creating a new rails app by default gives you sqlite3 in your gemfile. Instead, if you don&rsquo;t have posgres installed on your computer, use this snippet of code.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;sqlite3&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">group</span> <span class="ss">:production</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;pg&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will run sqlite in development, (if you&rsquo;re testing your app using rails s on localhost:3000, for example), and posgres in production on Heroku. If you have posgres on your computer, you can replace the &ldquo;gem &lsquo;sqlite3&rsquo;&rdquo; with &ldquo;gem &lsquo;pg&rsquo;&rdquo;, but then you&rsquo;ll have to change your database.yml file to also use posgres. If you don&rsquo;t have this set up correctly, you will get an error when you run git push heroku or when you try to view your app locally, or both. If git push heroku works, but your Heroku app still isn&rsquo;t working for some reason you can also type</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">heroku</span> <span class="n">logs</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>for a more detailed view of what exactly is happening to help you debug. That&rsquo;s all I have today, hopefully I&rsquo;ll get the right Facebook api permissions soon so I can actually do a more interesting post!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Summer Min</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-18T23:28:44-04:00" pubdate data-updated="true"></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://summermin.github.io/blog/2015/05/18/setting-up-heroku-and-why-the-fb-api-is-kind-of-a-pain/" data-via="" data-counturl="http://summermin.github.io/blog/2015/05/18/setting-up-heroku-and-why-the-fb-api-is-kind-of-a-pain/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/05/the-dark-side-of-the-force-sql-injection-and-mass-assignment/" title="Previous Post: The Dark Side of the Force: SQL Injection and Mass Assignment">&laquo; The Dark Side of the Force: SQL Injection and Mass Assignment</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/05/18/setting-up-heroku-and-why-the-fb-api-is-kind-of-a-pain/">Setting Up Heroku &amp; Why the FB API is Kind of a Pain</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/05/the-dark-side-of-the-force-sql-injection-and-mass-assignment/">The Dark Side of the Force: SQL Injection and Mass Assignment</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/22/a-conversation-about-abstraction/">A Conversation About Abstraction</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/09/class-schmass/">Class Schmass</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/09/my-first-post-on-octopress/">My First Post On Octopress</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 -  Summer Min <br/>
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> + <a href="https://github.com/ioveracker/mnml">mnml</a>.
+	  
+  </span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

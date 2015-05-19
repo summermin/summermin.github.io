@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://summermin.github.io/blog/2015/05/18/setting-up-heroku-and-why-the-fb-api-is-kind-of-a-pain/</loc>
+    <lastmod>2015-05-18T23:28:44-04:00</lastmod>
+  </url>
+  <url>
     <loc>http://summermin.github.io/blog/2015/05/05/the-dark-side-of-the-force-sql-injection-and-mass-assignment/</loc>
     <lastmod>2015-05-05T18:30:35-04:00</lastmod>
   </url>
