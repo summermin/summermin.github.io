@@ -128,7 +128,7 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>git push heroku master</span></code></pre></td></tr></table></div></figure>
 
 
-<p>But wait! A few things first. Heroku uses posgres, but creating a new rails app by default gives you sqlite3 in your gemfile. Instead, if you don&rsquo;t have posgres installed on your computer, use this snippet of code.</p>
+<p>But wait! A few things first. Heroku uses postgres, but creating a new rails app by default gives you sqlite3 in your gemfile. Instead, if you don&rsquo;t have postgres installed on your computer, use this snippet of code.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -147,7 +147,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>This will run sqlite in development, (if you&rsquo;re testing your app using rails s on localhost:3000, for example), and posgres in production on Heroku. If you have posgres on your computer, you can replace the &ldquo;gem &lsquo;sqlite3&rsquo;&rdquo; with &ldquo;gem &lsquo;pg&rsquo;&rdquo;, but then you&rsquo;ll have to change your database.yml file to also use posgres. If you don&rsquo;t have this set up correctly, you will get an error when you run git push heroku or when you try to view your app locally, or both. If git push heroku works, but your Heroku app still isn&rsquo;t working for some reason you can also type</p>
+<p>This will run sqlite in development, (if you&rsquo;re testing your app using rails s on localhost:3000, for example), and postgres in production on Heroku. If you have postgres on your computer, you can replace the &ldquo;gem &lsquo;sqlite3&rsquo;&rdquo; with &ldquo;gem &lsquo;pg&rsquo;&rdquo;, but then you&rsquo;ll have to change your database.yml file to also use postgres. If you don&rsquo;t have this set up correctly, you will get an error when you run git push heroku or when you try to view your app locally, or both. If git push heroku works, but your Heroku app still isn&rsquo;t working for some reason you can also type</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">heroku</span> <span class="n">logs</span>
