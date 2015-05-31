@@ -1,0 +1,379 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>An Ajax Call by Example - Forward Slash.</title>
+  <meta name="author" content="Summer Min">
+
+  
+  <meta name="description" content="Last Wednesday, I spent all day setting up an ajax call for a portion of the project my Flatiron team is currently working on. It was a difficult &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://summermin.github.io/blog/2015/05/31/an-ajax-call-by-example">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Forward Slash." type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+
+  
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner">
+	<div class="header-title"><a href="/">Forward Slash.</a></div>
+
+
+	<br><div class="header-subtitle">a codetrip to the wild west</div>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:summermin.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+  
+    
+      <h1 class="entry-title">An Ajax Call by Example</h1>
+    
+  
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-31T15:38:52-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Last Wednesday, I spent all day setting up an ajax call for a portion of the project my Flatiron team is currently working on. It was a difficult process, piecing all the different elements together, but I did learn quite a bit. So today, I&rsquo;m going to show you how to make an ajax call using our example.</p>
+
+<p>A quick summary of the problem: one feature of our project is a show page for all the different politicians currently in office in the US senate and house. We wanted to pull in recent New York Times articles to display on their show page, however because our app had to make multiple api requests to the NYTimes server (up to 5) and do some more filtering on our end after we received the data, each politician&rsquo;s show page was taking an excruciatingly long time to load (up to 20 seconds). Rather than have the user wait that long before a page loads, we wanted the page to load immediately, then make an ajax call to fetch the articles, persist them to our database, then display them on the page.</p>
+
+<p>Let&rsquo;s back up for a bit, what exactly is ajax? It&rsquo;s a tool that allows you to make requests to a web server without the need to refresh your page. It&rsquo;s how things like infinite scrolling work. Once you reach a certain point in the page, an ajax call is triggered, it makes a request to get more data and load it on the page. You can see how this might come in handy.</p>
+
+<p>Back to our problem, we have a method defined in our model called <strong>get_articles</strong> which made the api request and handled any post processing on our end, it was this method that took too long to run. Originally, we were calling it in the show action of our politician controller. Line 4 below:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>  <span class="vi">@politician</span> <span class="o">=</span> <span class="no">Politician</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@politician</span><span class="o">.</span><span class="n">nytimes_articles</span><span class="o">.</span><span class="n">empty?</span>
+</span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="vi">@politician</span><span class="o">.</span><span class="n">get_articles</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="vi">@politician</span><span class="o">.</span><span class="n">nytimes_articles</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now because this method took anywhere between 5 and 20 seconds to run, once you clicked the link to go to a show page, you would have to wait that long before the page loaded. Because no one wants to wait that long for a page to load, let&rsquo;s look at what we had to do to set up the NYTimes ajax call.</p>
+
+<p>First, let&rsquo;s separate the api calls from the show action, and make a separate action in the same controller called <strong>times_articles</strong> to move that code into, so now our controller looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>  <span class="vi">@politician</span> <span class="o">=</span> <span class="no">Politician</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">times_articles</span>
+</span><span class='line'>  <span class="vi">@politician</span> <span class="o">=</span> <span class="no">Politician</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:politician_id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@politician</span><span class="o">.</span><span class="n">nytimes_articles</span><span class="o">.</span><span class="n">empty?</span>
+</span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="vi">@politician</span><span class="o">.</span><span class="n">get_articles</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="vi">@politician</span><span class="o">.</span><span class="n">nytimes_articles</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then we need to add a nested route in our routes.rb file, one which will run the new action we just created:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">resources</span> <span class="ss">:politicians</span><span class="p">,</span> <span class="ss">only</span><span class="p">:</span> <span class="o">[</span><span class="ss">:show</span><span class="o">]</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">get</span> <span class="s2">&quot;/times_articles&quot;</span> <span class="o">=&gt;</span> <span class="s1">&#39;politicians#times_articles&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So for each polititian, this creates a route called times_articles: /politicians/:politician_id/times_articles. When the ajax call hits this route, it will run the <strong>times_articles</strong> controller action</p>
+
+<p>Next we need some place to actually house the ajax call. So we create a .js file in app/assets/javascript, in our case, we called it politician.js to stick with our naming convention since that is what our model/controller/migration was called. If you haven&rsquo;t required tree in your application.js file, then you&rsquo;ll need to make sure to require the new file in there. This javascript code will load on every page, but if you look at the way it was set up (line 2 below), the code only executes on politician show pages.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s2">&quot;page:change&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>   <span class="k">if</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">).</span><span class="nx">is</span><span class="p">(</span><span class="s1">&#39;#politicians.show&#39;</span><span class="p">)){</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">politician_id</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.politician_id&quot;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+</span><span class='line'>    <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;/politicians/&#39;</span> <span class="o">+</span> <span class="nx">politician_id</span> <span class="o">+</span> <span class="s1">&#39;/times_articles&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">dataType</span><span class="o">:</span> <span class="s2">&quot;script&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">type</span><span class="o">:</span> <span class="s2">&quot;GET&quot;</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This code is making an ajax call to the url we&rsquo;ve specified, which will hit our new controller action. You also have to specify the type of request, in this case a get request, and the type of data you are expecting back, here &ldquo;script&rdquo; is telling the ajax call to be expecting javascript back, after which it will execute the javascript. But before this code can sucessfully execute, there are are few more things we need to set up.</p>
+
+<p>Since our ajax call is requesting javascript, we need to add a few lines of code into our <strong>times_articles</strong> action that will specify what to do when someone requests javascript.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">times_articles</span>
+</span><span class='line'>  <span class="vi">@politician</span> <span class="o">=</span> <span class="no">Politician</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:politician_id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@politician</span><span class="o">.</span><span class="n">nytimes_articles</span><span class="o">.</span><span class="n">empty?</span>
+</span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="vi">@politician</span><span class="o">.</span><span class="n">get_articles</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="vi">@politician</span><span class="o">.</span><span class="n">nytimes_articles</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+</span><span class='line'>    <span class="nb">format</span><span class="o">.</span><span class="n">html</span> <span class="p">{</span><span class="n">render</span> <span class="ss">action</span><span class="p">:</span> <span class="s2">&quot;show&quot;</span><span class="p">}</span>
+</span><span class='line'>    <span class="nb">format</span><span class="o">.</span><span class="n">js</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="sb">```</span>
+</span><span class='line'><span class="sb">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="sb">Basically, the respond_to block is saying if someone requests javascript (in this case the &quot;someone&quot; is our ajax call), do the default action (because of rails magic, the default action is to look for a .js.erb file in the views directory with the same name as the action: times_articles.js.erb). If for some reason html is requested, for example if someone typed the times_article path into their browser, it would just load the show page.</span>
+</span><span class='line'>
+</span><span class='line'><span class="sb">So let&#39;s create that file which our controller is looking for: times_articles.js.erb, our specific file contained the following code:</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>javascript
+$(&lsquo;#articles img&rsquo;).hide();</p>
+
+<p>&lt;% @articles.each do |article| %>
+$(&lsquo;#articles&rsquo;).append(&ldquo;<div id='indiv-article' class='col-xs-4'> &lt;%= j link_to article.headline, article.url, class: @politician.party %> </div>&rdquo;);
+&lt;% end %>
+&#8220;`
+What it is doing is hiding an img tag (in our case a loading animation) and adding links for each article to the DOM in the section that has an id of &lsquo;articles&rsquo;. This code is the &ldquo;script&rdquo; which the ajax call is expecting back, which it will then execute.</p>
+
+<p>Let&rsquo;s summarize, what we have set up does the following:</p>
+
+<ol>
+<li>The javascript in politicians.js runs when we are on a politician show page and the ajax call is made.</li>
+<li>The ajax call hits the times_articles url, making a get request for javascript, which then runs the respective controller action</li>
+<li>The controller action runs the method to make the api requests to the NYTimes server, persists that data to the database, then looks for a file called times_articles.js.erb to return to the ajax call</li>
+<li>The code in times_article.js.erb is returned to the ajax call and executed, hiding certain html elements and adding new ones into the DOM, reflecting in your browser without the page reloading.</li>
+</ol>
+
+
+<p>Snazzy, eh?</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Summer Min</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-31T15:38:52-04:00" pubdate data-updated="true"></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://summermin.github.io/blog/2015/05/31/an-ajax-call-by-example/" data-via="" data-counturl="http://summermin.github.io/blog/2015/05/31/an-ajax-call-by-example/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/18/setting-up-heroku-and-why-the-fb-api-is-kind-of-a-pain/" title="Previous Post: Setting Up Heroku &amp; Why the FB API is Kind of a Pain">&laquo; Setting Up Heroku &amp; Why the FB API is Kind of a Pain</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/05/31/an-ajax-call-by-example/">An Ajax Call by Example</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/18/setting-up-heroku-and-why-the-fb-api-is-kind-of-a-pain/">Setting Up Heroku &amp; Why the FB API is Kind of a Pain</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/05/the-dark-side-of-the-force-sql-injection-and-mass-assignment/">The Dark Side of the Force: SQL Injection and Mass Assignment</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/22/a-conversation-about-abstraction/">A Conversation About Abstraction</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/09/class-schmass/">Class Schmass</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 -  Summer Min <br/>
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> + <a href="https://github.com/ioveracker/mnml">mnml</a>.
+	  
+  </span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
