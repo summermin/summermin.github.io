@@ -4,7 +4,7 @@
   <title><![CDATA[Forward Slash.]]></title>
   <link href="http://summermin.github.io/atom.xml" rel="self"/>
   <link href="http://summermin.github.io/"/>
-  <updated>2015-05-31T18:10:48-04:00</updated>
+  <updated>2015-05-31T18:17:29-04:00</updated>
   <id>http://summermin.github.io/</id>
   <author>
     <name><![CDATA[Summer Min]]></name>
@@ -21,7 +21,8 @@
     <updated>2015-05-31T15:38:52-04:00</updated>
     <id>http://summermin.github.io/blog/2015/05/31/an-ajax-call-by-example</id>
     
-    <content type="html"><![CDATA[<p>Last Wednesday, I spent all day setting up an ajax call for a portion of the project my Flatiron team is currently working on. It was a difficult process, piecing all the different elements together, but I did learn quite a bit. So today, I&rsquo;m going to show you how to make an ajax call using our example.</p>
+    <content type="html"><![CDATA[<p><img src="http://m.memegen.com/bvnpsq.jpg">
+Last Wednesday, I spent all day setting up an ajax call for a portion of the project my Flatiron team is currently working on (<a href="http://everdeen.herokuapp.com/">check it out here!</a>). It was a difficult process, piecing all the different elements together, but I did learn quite a bit. So today, I&rsquo;m going to show you how to make an ajax call using our example.</p>
 
 <p>A quick summary of the problem: one feature of our project is a show page for all the different politicians currently in office in the US senate and house. We wanted to pull in recent New York Times articles to display on their show page, however because our app had to make multiple api requests to the NYTimes server (up to 5) and do some more filtering on our end after we received the data, each politician&rsquo;s show page was taking an excruciatingly long time to load (up to 20 seconds). Rather than have the user wait that long before a page loads, we wanted the page to load immediately, then make an ajax call to fetch the articles, persist them to our database, then display them on the page.</p>
 
