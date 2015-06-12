@@ -4,7 +4,7 @@
   <title><![CDATA[Forward Slash.]]></title>
   <link href="http://summermin.github.io/atom.xml" rel="self"/>
   <link href="http://summermin.github.io/"/>
-  <updated>2015-05-31T18:40:37-04:00</updated>
+  <updated>2015-06-12T16:20:25-04:00</updated>
   <id>http://summermin.github.io/</id>
   <author>
     <name><![CDATA[Summer Min]]></name>
@@ -24,7 +24,7 @@
     <content type="html"><![CDATA[<p><img class="left" src="http://cdn.meme.am/instances/500x/48812887.jpg" width="400">
 Last Wednesday, I spent all day setting up an ajax call for a portion of the project my Flatiron team is currently working on (<a href="http://everdeen.herokuapp.com/">check it out here!</a>). It was a difficult process, piecing all the different elements together, but I did learn quite a bit. So today, I&rsquo;m going to show you how to make an ajax call in a rails app using our example.</p>
 
-<p>A quick summary of the problem: one feature of our project is a show page for all the different politicians currently in office in the US senate and house. We wanted to pull in recent New York Times articles to display on their show page, however because our app had to make multiple api requests to the NYTimes server (up to 5) and do some more filtering on our end after we received the data, each politician&rsquo;s show page was taking an excruciatingly long time to load (up to 20 seconds). Rather than have the user wait that long before a page loads, we wanted the page to load immediately, then make an ajax call to fetch the articles, persist them to our database, then display them on the page.</p>
+<p>A quick summary of the problem: one feature of our project is a show page for all the different politicians currently in office in the US senate and house. We wanted to pull in recent New York Times articles to display on their show page, however because our app had to make multiple api requests to the NYTimes server (up to 50) and do some more filtering on our end after we received the data, each politician&rsquo;s show page was taking an excruciatingly long time to load (up to 20 seconds). Rather than have the user wait that long before a page loads, we wanted the page to load immediately, then make an ajax call to fetch the articles, persist them to our database, then display them on the page.</p>
 
 <p>Let&rsquo;s back up for a bit, what exactly is ajax? It&rsquo;s a tool that allows you to make requests to a web server without the need to refresh your page. It&rsquo;s how things like infinite scrolling work. Once you reach a certain point in the page, an ajax call is triggered, it makes a request to get more data and load it on the page. You can see how this might come in handy.</p>
 
@@ -252,9 +252,7 @@ Last Wednesday, I spent all day setting up an ajax call for a portion of the pro
     <updated>2015-05-05T18:30:35-04:00</updated>
     <id>http://summermin.github.io/blog/2015/05/05/the-dark-side-of-the-force-sql-injection-and-mass-assignment</id>
     
-    <content type="html"><![CDATA[<p>At the Flatiron School, we are surrounded by passionate people who are, of their own volition, here to learn and all more invested in our educations than at any other institution of learning I have ever attended. We all build each other up and have grand ideas of the kind of programmers we will be in a few years. Unfortunately, the bubble which we live in doesn&rsquo;t always extend to the rest of the world. And lest you or I think that the entire world of programming is all rainbows and niceties, I&rsquo;m here today to say &ldquo;no!&rdquo; For every good person you encounter, undoubtedly there is another who is trying to screw you for their own nefarious purposes.</p>
-
-<p>Here we will cover two ways in which you can get royally nailed to the wall as well as some precautions you can take to avoid them. I should add a disclaimer that these are pretty amateur mistakes which are easily avoidable but hopefully this will help you better understand how they work rather than just knowing how to prevent them.</p>
+    <content type="html"><![CDATA[<p>Today, we will cover two ways in which your website can be compromised as well as some precautions you can take to avoid them. I should add a disclaimer that these are pretty amateur mistakes (ones which a new programmer such as myself could easily make), but they are easily avoidable and hopefully this post will help you better understand how they work rather than just knowing how to prevent them.</p>
 
 <p>First is sql injections. Most applications, especially if they involve users and passwords will be backed up by a database to store all that information. With malicious sql injections, people can completely destroy your tables or steal users&#8217; passwords. It goes something like this.</p>
 
