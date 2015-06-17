@@ -125,7 +125,7 @@ Last Wednesday, I spent all day setting up an ajax call for a portion of the pro
 
 <p>Now because this method took anywhere between 5 and 20 seconds to run, once you clicked the link to go to a show page, you would have to wait that long before the page loaded. Because no one wants to wait that long for a page to load, let&rsquo;s look at what we had to do to set up the NYTimes ajax call.</p>
 
-<p>First, let&rsquo;s separate the api calls from the show action, and make a separate action in the same controller called <strong>times_articles</strong> to move that code into, so now our controller looks like this:</p>
+<p>First, let&rsquo;s separate the api requests from the show action, and make a separate action in the same controller called <strong>times_articles</strong> to move that code into, so now our controller looks like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
