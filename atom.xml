@@ -4,7 +4,7 @@
   <title><![CDATA[Forward Slash.]]></title>
   <link href="http://summermin.github.io/atom.xml" rel="self"/>
   <link href="http://summermin.github.io/"/>
-  <updated>2015-06-16T20:06:50-04:00</updated>
+  <updated>2015-08-28T09:25:06-04:00</updated>
   <id>http://summermin.github.io/</id>
   <author>
     <name><![CDATA[Summer Min]]></name>
@@ -21,8 +21,7 @@
     <updated>2015-05-31T15:38:52-04:00</updated>
     <id>http://summermin.github.io/blog/2015/05/31/an-ajax-call-by-example</id>
     
-    <content type="html"><![CDATA[<p><img class="left" src="http://cdn.meme.am/instances/500x/48812887.jpg" width="400">
-Last Wednesday, I spent all day setting up an ajax call for a portion of the project my Flatiron team is currently working on (<a href="http://everdeen.herokuapp.com/">check it out here!</a>). It was a difficult process, piecing all the different elements together, but I did learn quite a bit. So today, I&rsquo;m going to show you how to make an ajax call in a rails app using our example.</p>
+    <content type="html"><![CDATA[<p>Last Wednesday, I spent all day setting up an ajax call for a portion of the project my Flatiron team is currently working on (<a href="http://everdeen.herokuapp.com/">check it out here!</a>). It was a difficult process, piecing all the different elements together, but I did learn quite a bit. So today, I&rsquo;m going to show you how to make an ajax call in a rails app using our example.</p>
 
 <p>A quick summary of the problem: one feature of our project is a show page for all the different politicians currently in office in the US senate and house. We wanted to pull in recent New York Times articles to display on their show page, however because our app had to make multiple api requests to the NYTimes server (up to 50) and do some more filtering on our end after we received the data, each politician&rsquo;s show page was taking an excruciatingly long time to load (up to 20 seconds). Rather than have the user wait that long before a page loads, we wanted the page to load immediately, then make an ajax call to fetch the articles, persist them to our database, then display them on the page.</p>
 
@@ -197,13 +196,21 @@ Last Wednesday, I spent all day setting up an ajax call for a portion of the pro
     <updated>2015-05-18T23:28:44-04:00</updated>
     <id>http://summermin.github.io/blog/2015/05/18/setting-up-heroku-and-why-the-fb-api-is-kind-of-a-pain</id>
     
-    <content type="html"><![CDATA[<p>Ahh, those days when you have a brilliant (or not so brilliant) idea and want to make a cool app. You set up Heroku so other people can use it, set up an api to start requesting data, and eagerly start coding, right? &hellip;More like, you realize Facebook requires you to apply for permission if you want to use anything more than the barebones data they give you default access to (a process which they say can take up to 7 to 14 business days)&hellip;so that app you wanted to build overnight turns into a woeful blog post about what little you&rsquo;ve been able to accomplish thus far, which is this, and only this: <a href="http://my-dear-words.herokuapp.com/">http://my-dear-words.herokuapp.com/</a></p>
+    <content type="html"><![CDATA[<p>Ahh, those days when you have a brilliant (or not so brilliant) idea and want to make a cool app. You set up Heroku so other people can use it, make some api requests to start gathering data, and eagerly start coding, right? &hellip;More like, you realize Facebook requires you to apply for permission if you want to use anything more than the barebones data they give you default access to (a process which they say can take up to 14 business days)&hellip;so that app you wanted to build overnight turns into a woeful blog post about what little you&rsquo;ve been able to accomplish thus far, which is this, and only this: (UPDATE: I built the app with twitter!) <a href="http://your-vocabulary-sucks.herokuapp.com/">http://your-vocabulary-sucks.herokuapp.com/</a></p>
 
 <p>What I wanted to do was pull all of a user&rsquo;s Facebook posts and tally up their most commonly used words to see not only how sophisticated their vocabulary is, but maybe how egotistical they are, how angry, and other such nonsense. Maybe chart that information using Chart.js or some other cool library. Now we&rsquo;ll never know, at least until Facebook approves my application that is.</p>
 
 <p>Okay, let&rsquo;s get started with Heroku, shall we? First if you don&rsquo;t already have an account, sign up here: <a href="https://dashboard.heroku.com/apps">https://dashboard.heroku.com/apps</a></p>
 
-<p>Keep in mind you need a web app in order to deploy to Heroku, you can do a quick rails new and set up an index.html.erb page so there&rsquo;s something to display on your root directory. Also make sure your project is a git repository and you&rsquo;ve been pushing all your changes to github (just to be safe), you&rsquo;ll also be using git to push to Heroku. Once you have a Heroku account you need to install their toolbelt, after which you can login in your terminal using by typing</p>
+<p>Additionally, you need a web app in order to deploy to Heroku, so if you don&rsquo;t have one, you can do a quick rails new and set up an index.html.erb page so there&rsquo;s something to display. Keep in mind that Heroku uses postgres, but creating a new rails app by default gives you sqlite3 in your gemfile. Instead, you should install postgres on your computer and run</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rails new [appname] --database=postgresql</span></code></pre></td></tr></table></div></figure>
+
+
+<p>that way you&rsquo;re running the same database system in development and production. If you don&rsquo;t have this set up correctly, you will get an error deploying to heroku or when you try to view your app locally, or both.</p>
+
+<p>Also make sure your project is a git repository and you&rsquo;ve been pushing all your changes to github (just to be safe), you&rsquo;ll also be using git to push to Heroku. Once you have a Heroku account you need to install their toolbelt, after which you can login in your terminal by typing</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>heroku login</span></code></pre></td></tr></table></div></figure>
@@ -221,19 +228,13 @@ Last Wednesday, I spent all day setting up an ajax call for a portion of the pro
 </pre></td><td class='code'><pre><code class=''><span class='line'>heroku apps:rename [newname]</span></code></pre></td></tr></table></div></figure>
 
 
-<p>To deploy the code you have, simply run</p>
+<p>To deploy code, simply run</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>git push heroku master</span></code></pre></td></tr></table></div></figure>
 
 
-<p>But wait! A few things first. Heroku uses postgres, but creating a new rails app by default gives you sqlite3 in your gemfile. Instead, you should install postgres on your computer and run</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rails new [appname] --database=postgresql</span></code></pre></td></tr></table></div></figure>
-
-
-<p>that way you&rsquo;re running the same database system in development and production. If you don&rsquo;t have this set up correctly, you will get an error when you run git push heroku or when you try to view your app locally, or both. If git push heroku works, but your Heroku app still isn&rsquo;t working for some reason you can also type</p>
+<p>and you&rsquo;re golden. If the push works but your Heroku app isn&rsquo;t working for some reason you can type</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>heroku logs</span></code></pre></td></tr></table></div></figure>
